@@ -1,6 +1,6 @@
 class wordpress::install{
     
-    packages=['php-53', 'mysql-55', 'mysql-55/client', 'apache-22', 'wget']
+    $packages =['php-53', 'mysql-55', 'mysql-55/client', 'apache-22', 'wget']
 
     package { $wordpress::install::packages:
         ensure   => installed,
@@ -18,6 +18,6 @@ class wordpress::install{
 
     exec { 'mv wp':
         command => '/usr/bin/mv /tmp/wordpress /var/apache2/2.2',
-        require => [Package[$wordpress::install:packages], Exec['untar wp']],
+        require => [Package[$wordpress::install::packages], Exec['untar wp']],
     }
 }

@@ -36,5 +36,8 @@
 # Copyright 2015 Your name here, unless otherwise noted.
 #
 class wordpress {
+    include wordpress::install
+    include wordpress::config
+    include wordpress::service
     Class['wordpress::install'] -> Class['wordpress::config'] -> Class['wordpress::service']
 }
