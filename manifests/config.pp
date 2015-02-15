@@ -7,8 +7,11 @@ class wordpress::config{
         group  => 'sys',
     }
 
+    Exec { path => '/usr/bin:/usr/sbin:/bin:/usr/local/bin'}
+
     exec { 'create wp db':
-        command => '/usr/bin/mysql -u root -e "create database wp"',
+        command => 'mysql -u root -e "create database wp"',
+        unless  => 'mysql -u root -e "show databases"|grep -w wp',
     }
 
     file { '/var/apache2/2.2/wordpress/wp-config.php' :
