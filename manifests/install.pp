@@ -2,7 +2,10 @@ class wordpress::install{
     
     $packages =['php-53', 'mysql-55', 'mysql-55/client', 'apache-22', 'wget']
 
-    Exec { path => '/usr/bin:/usr/sbin:/bin:/usr/local/bin'}
+    Exec {
+        path => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
+        cwd  => '/var/apache2/2.2',
+    }
 
     package { $wordpress::install::packages:
         ensure   => installed,
@@ -10,16 +13,17 @@ class wordpress::install{
     }
 
     exec { 'download wp':
-        command => 'wget -O /tmp/wp.tar.gz https://wordpress.org/latest.tar.gz',
+        command => 'wget https://wordpress.org/latest.tar.gz',
+        unless  => 'ls wordpress',
     }
 
     exec { 'untar wp':
-        command => 'tar zxvf /tmp/wp.tar.gz',
-        require => Exec['download wp'],
+        command => 'tar zxvf latest.tar.gz',
+        unless  => 'ls wordpress',
     }
 
-    exec { 'mv wp':
-        command => 'mv /tmp/wordpress /var/apache2/2.2',
-        require => [Package[$wordpress::install::packages], Exec['untar wp']],
+    exec { 'rm archive':
+        command => 'rm latest.tar.gz',
+        onlyif  => 'ls latest.tar.gz',
     }
 }
