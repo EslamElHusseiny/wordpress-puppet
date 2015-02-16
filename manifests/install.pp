@@ -14,16 +14,16 @@ class wordpress::install{
 
     exec { 'download wp':
         command => 'wget https://wordpress.org/latest.tar.gz',
-        unless  => 'ls wordpress',
+        unless  => 'test -e wordpress',
     }
 
     exec { 'untar wp':
         command => 'tar zxvf latest.tar.gz',
-        unless  => 'ls wordpress',
+        unless  => 'test -e wordpress',
     }
 
     exec { 'rm archive':
         command => 'rm latest.tar.gz',
-        onlyif  => 'ls latest.tar.gz',
+        onlyif  => 'test -e latest.tar.gz',
     }
 }
