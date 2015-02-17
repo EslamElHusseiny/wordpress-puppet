@@ -12,6 +12,13 @@ class wordpress::install{
         provider => pkg,
     }
 
+    service { 'mysql':
+        ensure   => running,
+        enable   => true,
+        provider => smf,
+        require  => Package[$wordpress::install::packages],
+    }
+
     exec { 'download wp':
         command => 'wget https://wordpress.org/latest.tar.gz',
         unless  => 'test -e wordpress',

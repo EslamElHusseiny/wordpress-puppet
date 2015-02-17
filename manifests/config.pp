@@ -10,8 +10,10 @@ class wordpress::config{
     Exec { path => '/usr/bin:/usr/sbin:/bin:/usr/local/bin'}
 
     exec { 'create wp db':
-        command => 'mysql -u root -e "create database wp"',
-        unless  => 'mysql -u root -e "show databases"|grep -w wp',
+        command   => 'mysql -u root -e "create database wp"',
+        unless    => 'mysql -u root -e "show databases"|grep -w wp',
+        tries     => 3,
+        try_sleep => 5,
     }
 
     file { '/var/apache2/2.2/wordpress/wp-config.php' :
