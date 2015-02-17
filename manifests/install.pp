@@ -20,10 +20,12 @@ class wordpress::install{
     exec { 'untar wp':
         command => 'tar zxvf latest.tar.gz',
         unless  => 'test -e wordpress',
+        require => Exec['download wp'],
     }
 
     exec { 'rm archive':
         command => 'rm latest.tar.gz',
         onlyif  => 'test -e latest.tar.gz',
+        require => Exec['untar wp'],
     }
 }
