@@ -14,3 +14,11 @@ Support
 -------
 
 Please log tickets and issues at https://github.com/EslamElHusseiny/wordpress-puppet/issues
+
+
+Test
+----
+
+pkg install puppet git
+git clone https://github.com/EslamElHusseiny/wordpress-puppet.git wordpress
+puppet apply --debug --modulepath=. -e "include wordpress"
